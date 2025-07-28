@@ -13,6 +13,7 @@ struct MainMenuView: View {
     enum ViewType {
         case pomodoroTimer
         case textToSpeech
+        case aiChat
     }
     
     var body: some View {
@@ -25,6 +26,10 @@ struct MainMenuView: View {
                     })
                 case .textToSpeech:
                     TextToSpeechView(onBack: {
+                        self.selectedView = nil
+                    })
+                case .aiChat:
+                    AIChatView(onBack: {
                         self.selectedView = nil
                     })
                 }
@@ -101,6 +106,40 @@ struct MainMenuView: View {
                                 .fontWeight(.semibold)
                             
                             Text("输入文本，语音朗读")
+                                .font(.body)
+                                .foregroundColor(.secondary)
+                        }
+                        
+                        Spacer()
+                        
+                        Image(systemName: "chevron.right")
+                            .font(.title3)
+                            .foregroundColor(.secondary)
+                    }
+                    .padding(30)
+                    .background(Color.gray.opacity(0.1))
+                    .cornerRadius(15)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 15)
+                            .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                    )
+                }
+                .buttonStyle(PlainButtonStyle())
+                
+                Button(action: {
+                    selectedView = .aiChat
+                }) {
+                    HStack(spacing: 20) {
+                        Image(systemName: "message.fill")
+                            .font(.system(size: 40))
+                            .foregroundColor(.purple)
+                        
+                        VStack(alignment: .leading, spacing: 5) {
+                            Text("AI 聊天")
+                                .font(.title2)
+                                .fontWeight(.semibold)
+                            
+                            Text("与智能助手对话")
                                 .font(.body)
                                 .foregroundColor(.secondary)
                         }
